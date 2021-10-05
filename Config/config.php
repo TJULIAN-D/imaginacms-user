@@ -86,32 +86,8 @@ return [
   | Add relations that will be dynamically added to the User entity
    */
   'relations' => [
-    'organizations' => function () {
-      return $this->belongsToMany(
-        \Modules\Isite\Entities\Organization::class,
-        'isite__user_organization');
-    },
-    
-    'addresses' => function () {
-      return $this->hasMany(
-        \Modules\Iprofile\Entities\Address::class);
-    },
-    
-    'fields' => function () {
-      return $this->hasMany(
-        \Modules\Iprofile\Entities\Field::class);
-    },
-    
-    'settings' => function () {
-      return $this->hasMany(
-        \Modules\Iprofile\Entities\Setting::class, 'related_id')->where('entity_name', 'user');
-    },
-    
-    'departments' => function () {
-      return $this->belongsToMany(
-        \Modules\Iprofile\Entities\Department::class,
-        'iprofile__user_department');
-    }
+  
+  
   ],
   /*
   |--------------------------------------------------------------------------
