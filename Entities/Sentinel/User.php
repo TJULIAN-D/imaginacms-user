@@ -23,6 +23,8 @@ class User extends EloquentUser implements UserInterface, AuthenticatableContrac
     'permissions',
     'first_name',
     'last_name',
+    'timezone',
+    'language',
   ];
   
   /**
