@@ -15,13 +15,13 @@ class UserAddAuditstampInAllTables extends Migration
     {
   
       Schema::table('roles', function (Blueprint $table) {
-        $table->dropUnique('slug');
+      //  $table->dropUnique('slug');
         $table->unique(['slug', 'organization_id']);
         $table->auditStamps();
       });
   
       Schema::table('users', function (Blueprint $table) {
-        $table->dropUnique('email');
+      //  $table->dropUnique('email');
         $table->unique(['email', 'organization_id']);
         $table->auditStamps();
       });
