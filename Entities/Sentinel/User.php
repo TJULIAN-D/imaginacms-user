@@ -39,7 +39,7 @@ class User extends EloquentUser implements UserInterface, AuthenticatableContrac
   
   public function __construct(array $attributes = [])
   {
-    $this->loginNames = setting('iprofile::customLogin',[],config('asgard.user.config.login-columns'));
+    $this->loginNames = setting('iprofile::customLogin',null,config('asgard.user.config.login-columns'));
 
     if (!is_array($this->loginNames)){
       $this->loginNames = json_decode($this->loginNames);
