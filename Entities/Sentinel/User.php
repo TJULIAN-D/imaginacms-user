@@ -14,9 +14,11 @@ use Modules\User\Presenters\UserPresenter;
 use Laravel\Passport\HasApiTokens;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 
+use Modules\Core\Support\Traits\AuditTrait;
+
 class User extends EloquentUser implements UserInterface, AuthenticatableContract
 {
-  use PresentableTrait, Authenticatable, HasApiTokens;
+  use PresentableTrait, Authenticatable, HasApiTokens, AuditTrait;
   
   protected $fillable = [
     'email',

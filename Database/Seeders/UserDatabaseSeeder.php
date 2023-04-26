@@ -18,7 +18,7 @@ class UserDatabaseSeeder extends Seeder
     Model::unguard();
     ProcessSeeds::dispatch([
       "baseClass" => "\Modules\User\Database\Seeders",
-      "seeds" => ["SentinelGroupSeedTableSeeder"]
+      "seeds" => ["UserModuleTableSeeder", "SentinelGroupSeedTableSeeder"]
     ]);
   }
 }
