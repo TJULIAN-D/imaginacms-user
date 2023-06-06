@@ -88,5 +88,5 @@ interface UserRepository
    */
   public function serverPaginationFilteringFor(Request $request): LengthAwarePaginator;
 
-  public function getItem($criteria, $params);
+  public function getItem($criteria, $params = false);
 }
