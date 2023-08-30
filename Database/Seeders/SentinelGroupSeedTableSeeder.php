@@ -31,7 +31,7 @@ class SentinelGroupSeedTableSeeder extends Seeder
     $this->schedule->command('php artisan config:clear');
 
     $groups = Sentinel::getRoleRepository();
-    
+
     $superAdminGroup = Sentinel::findRoleBySlug('super-admin');
     if (!isset($superAdminGroup->id)) {
       // Create an Admin group
@@ -39,8 +39,15 @@ class SentinelGroupSeedTableSeeder extends Seeder
         [
           'name' => 'Super Admin',
           'slug' => 'super-admin',
+          'title' => trans("iprofile::roles.types.super admin")
         ]
       );
+    }else{
+
+      //Update Title translation - Old Sites
+      $superAdminGroup->title = trans("iprofile::roles.types.super admin");
+      $superAdminGroup->save();
+
     }
   
   
@@ -77,10 +84,18 @@ class SentinelGroupSeedTableSeeder extends Seeder
         [
           'name' => 'User',
           'slug' => 'user',
+          'title' =>  trans("iprofile::roles.types.user")
         ]
       );
+    }else{
+      
+       //Update Title translation - Old Sites
+       $userGroup->title = trans("iprofile::roles.types.user");
+       $userGroup->save();
+
     }
     
     
   }
+
 }
