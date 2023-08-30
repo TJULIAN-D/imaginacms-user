@@ -32,24 +32,16 @@ class SentinelGroupSeedTableSeeder extends Seeder
 
     $groups = Sentinel::getRoleRepository();
 
-    $superAdminGroup = Sentinel::findRoleBySlug('super-admin');
-    if (!isset($superAdminGroup->id)) {
-      // Create an Admin group
-      $groups->createModel()->create(
-        [
-          'name' => 'Super Admin',
-          'slug' => 'super-admin',
-          'title' => trans("iprofile::roles.types.super admin")
-        ]
-      );
-    }else{
-
-      //Update Title translation - Old Sites
-      $superAdminGroup->title = trans("iprofile::roles.types.super admin");
-      $superAdminGroup->save();
-
-    }
   
+    // Create or Update data to Role
+    $roleData = [
+      'name' => 'Super Admin',
+      'slug' => 'super-admin',
+      'en' => ['title' => trans("iprofile::roles.types.super admin",[],"en")],
+      'es' => ['title' => trans("iprofile::roles.types.super admin",[],"es")]
+    ];
+    $roleSAdmin = createOrUpdateRole($roleData);
+    
   
     $permissions = $this->permissions->all();
     
@@ -76,25 +68,15 @@ class SentinelGroupSeedTableSeeder extends Seeder
     $superAdminGroup->permissions = $allPermissions;
     $superAdminGroup->save();
    
-    
-    $userGroup = Sentinel::findRoleBySlug('user');
-    if (!isset($userGroup->id)) {
-      // Create an Users group
-      $groups->createModel()->create(
-        [
-          'name' => 'User',
-          'slug' => 'user',
-          'title' =>  trans("iprofile::roles.types.user")
-        ]
-      );
-    }else{
-      
-       //Update Title translation - Old Sites
-       $userGroup->title = trans("iprofile::roles.types.user");
-       $userGroup->save();
+    // Create or Update data to Role
+    $roleData = [
+      'name' => 'User',
+      'slug' => 'user',
+      'en' => ['title' => trans("iprofile::roles.types.user",[],"en")],
+      'es' => ['title' => trans("iprofile::roles.types.user",[],"es")]
+    ];
+    $roleUser = createOrUpdateRole($roleData);
 
-    }
-    
     
   }
 
