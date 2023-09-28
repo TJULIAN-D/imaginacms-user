@@ -10,8 +10,6 @@ class EloquentUserTokenRepository extends EloquentBaseRepository implements User
 {
     /**
      * Get all tokens for the given user
-     * @param int $userId
-     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function allForUser($userId)
     {
@@ -19,7 +17,7 @@ class EloquentUserTokenRepository extends EloquentBaseRepository implements User
     }
 
     /**
-     * @param int $userId
+     * @param  int  $userId
      * @return \Modules\User\Entities\UserToken
      */
     public function generateFor($userId)
