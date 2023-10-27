@@ -32,7 +32,8 @@ class User extends EloquentUser implements UserInterface, AuthenticatableContrac
     'timezone',
     'language',
     'is_guest',
-    'user_name'
+    'user_name',
+    'phone'
   ];
 
   /**
