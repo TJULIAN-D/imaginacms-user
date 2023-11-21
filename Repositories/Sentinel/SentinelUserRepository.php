@@ -16,6 +16,8 @@ use Modules\User\Events\UserWasCreated;
 use Modules\User\Events\UserWasUpdated;
 use Modules\User\Exceptions\UserNotFoundException;
 use Modules\User\Repositories\UserRepository;
+use Modules\Ihelpers\Events\CreateMedia;
+use Modules\Ihelpers\Events\UpdateMedia;
 
 class SentinelUserRepository implements UserRepository
 {
@@ -83,6 +85,9 @@ class SentinelUserRepository implements UserRepository
     if (!empty($roles)) {
       $user->roles()->attach($roles);
     }
+
+    // Add media relation
+    event(new CreateMedia($model, $data));
 
     return $user;
   }
@@ -162,6 +167,8 @@ class SentinelUserRepository implements UserRepository
     $user->save();
 
     event(new UserWasUpdated($user));
+
+    event(new UpdateMedia($user, $data));
 
     if (!empty($roles)) {
       $user->roles()->sync($roles);

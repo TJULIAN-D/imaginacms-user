@@ -86,8 +86,8 @@ return [
   | Add relations that will be dynamically added to the User entity
    */
   'relations' => [
-  
-  
+
+
   ],
   /*
   |--------------------------------------------------------------------------
@@ -98,7 +98,7 @@ return [
   | No custom sidebar: null
   */
   'custom-sidebar' => null,
-  
+
   /*
   |--------------------------------------------------------------------------
   | Load additional view namespaces for a module
@@ -116,4 +116,11 @@ return [
     // Read module views from /resources/views/asgard/<module-name>
     'resources' => true,
   ],
+
+  //Media Fillables
+  'mediaFillable' => [
+    'user' => [
+      'profile' => 'single'
+    ]
+  ]
 ];

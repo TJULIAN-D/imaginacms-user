@@ -15,12 +15,13 @@ use Modules\User\Presenters\UserPresenter;
 use Laravel\Passport\HasApiTokens;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 use Modules\Isite\Traits\RevisionableTrait;
+use Modules\Media\Support\Traits\MediaRelation;
 
 use Modules\Core\Support\Traits\AuditTrait;
 
 class User extends EloquentUser implements UserInterface, AuthenticatableContract
 {
-  use PresentableTrait, Authenticatable, HasApiTokens, AuditTrait, RevisionableTrait, Tokenable;
+  use PresentableTrait, Authenticatable, HasApiTokens, AuditTrait, RevisionableTrait, Tokenable, MediaRelation;
 
   public $repository = 'Modules\User\Repositories\UserRepository';
   public $entity = 'Modules\User\Entities\Sentinel\User';
