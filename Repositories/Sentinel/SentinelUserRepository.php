@@ -87,7 +87,7 @@ class SentinelUserRepository implements UserRepository
     }
 
     // Add media relation
-    event(new CreateMedia($model, $data));
+    event(new CreateMedia($user, $data));
 
     return $user;
   }
