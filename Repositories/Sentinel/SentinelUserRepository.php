@@ -78,8 +78,11 @@ class SentinelUserRepository implements UserRepository
             $user->roles()->attach($roles);
         }
 
-        return $user;
-    }
+    // Add media relation
+    event(new CreateMedia($user, $data));
+
+    return $user;
+  }
 
     /**
      * Create a user and assign roles to it
@@ -150,10 +153,12 @@ class SentinelUserRepository implements UserRepository
 
         event(new UserWasUpdated($user));
 
-        if (! empty($roles)) {
-            $user->roles()->sync($roles);
-        }
+    event(new UpdateMedia($user, $data));
+
+    if (!empty($roles)) {
+      $user->roles()->sync($roles);
     }
+  }
 
     /**
      * Deletes a user

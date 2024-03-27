@@ -107,12 +107,19 @@ return [
   | extra view namespace.
   | By default every extra namespace will be set to false.
   */
-    'useViewNamespaces' => [
-        // Read module views from /Themes/<backend-theme-name>/views/modules/<module-name>
-        'backend-theme' => false,
-        // Read module views from /Themes/<frontend-theme-name>/views/modules/<module-name>
-        'frontend-theme' => false,
-        // Read module views from /resources/views/asgard/<module-name>
-        'resources' => true,
-    ],
+  'useViewNamespaces' => [
+    // Read module views from /Themes/<backend-theme-name>/views/modules/<module-name>
+    'backend-theme' => false,
+    // Read module views from /Themes/<frontend-theme-name>/views/modules/<module-name>
+    'frontend-theme' => false,
+    // Read module views from /resources/views/asgard/<module-name>
+    'resources' => true,
+  ],
+
+  //Media Fillables
+  'mediaFillable' => [
+    'user' => [
+      'profile' => 'single'
+    ]
+  ]
 ];
