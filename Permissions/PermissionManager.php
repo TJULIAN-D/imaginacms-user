@@ -59,8 +59,7 @@ class PermissionManager
         if ($checkedPermission === '-1' || $checkedPermission === -1) {
             return false;
         }
-
-        return null;
+        return false;
     }
 
     /**

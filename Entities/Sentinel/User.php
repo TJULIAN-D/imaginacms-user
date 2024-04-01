@@ -2,37 +2,42 @@
 
 namespace Modules\User\Entities\Sentinel;
 
+
 use Cartalyst\Sentinel\Laravel\Facades\Activation;
 use Cartalyst\Sentinel\Users\EloquentUser;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Laracasts\Presenter\PresentableTrait;
+use Modules\Isite\Traits\Tokenable;
 use Modules\User\Entities\UserInterface;
 use Modules\User\Entities\UserToken;
 use Modules\User\Presenters\UserPresenter;
 use Laravel\Passport\HasApiTokens;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 use Modules\Isite\Traits\RevisionableTrait;
+use Modules\Media\Support\Traits\MediaRelation;
 
 use Modules\Core\Support\Traits\AuditTrait;
 
 class User extends EloquentUser implements UserInterface, AuthenticatableContract
 {
-    use PresentableTrait, Authenticatable, HasApiTokens, AuditTrait, RevisionableTrait;
+  use PresentableTrait, Authenticatable, HasApiTokens, AuditTrait, RevisionableTrait, Tokenable, MediaRelation;
 
-    public $repository = 'Modules\User\Repositories\UserRepository';
+  public $repository = 'Modules\User\Repositories\UserRepository';
+  public $entity = 'Modules\User\Entities\Sentinel\User';
 
-    protected $fillable = [
-        'email',
-        'password',
-        'permissions',
-        'first_name',
-        'last_name',
-        'timezone',
-        'language',
-        'is_guest',
-        'user_name',
-    ];
+  protected $fillable = [
+    'email',
+    'password',
+    'permissions',
+    'first_name',
+    'last_name',
+    'timezone',
+    'language',
+    'is_guest',
+    'user_name',
+    'phone'
+  ];
 
     /**
      * {@inheritDoc}
