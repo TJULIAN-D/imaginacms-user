@@ -56,6 +56,16 @@ class Sentinel implements LaravelGuard
         return SentinelFacade::validForCreation($credentials);
     }
 
+  /**
+   * Determine if the guard has a user instance.
+   *
+   * @return bool
+   */
+  public function hasUser(): bool
+  {
+    return SentinelFacade::hasUser();
+  }
+
     /**
      * Set the current user.
      */
