@@ -16,6 +16,8 @@ use Modules\User\Events\UserWasCreated;
 use Modules\User\Events\UserWasUpdated;
 use Modules\User\Exceptions\UserNotFoundException;
 use Modules\User\Repositories\UserRepository;
+use Modules\Ihelpers\Events\CreateMedia;
+use Modules\Ihelpers\Events\UpdateMedia;
 
 class SentinelUserRepository implements UserRepository
 {
