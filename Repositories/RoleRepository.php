@@ -51,7 +51,7 @@ interface RoleRepository
      * @param  string  $name
      * @return mixed
      */
-    public function findByName($name);
+    public function findByName(String $name);
 
     /**
      * Find a role by its slug
@@ -59,7 +59,7 @@ interface RoleRepository
      * @param  string  $slug
      * @return mixed
      */
-    public function findBySlug($slug);
+    public function findBySlug(String $slug);
 
     /**
      * Paginating, ordering and searching through pages for server side index table
