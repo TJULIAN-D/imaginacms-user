@@ -11,7 +11,7 @@ class Sentinel implements LaravelGuard
     /**
      * Determine if the current user is authenticated.
      */
-    public function check(): bool
+    public function check()
     {
         if (SentinelFacade::check()) {
             return true;
@@ -23,7 +23,7 @@ class Sentinel implements LaravelGuard
     /**
      * Determine if the current user is a guest.
      */
-    public function guest(): bool
+    public function guest()
     {
         return SentinelFacade::guest();
     }
@@ -31,7 +31,7 @@ class Sentinel implements LaravelGuard
     /**
      * Get the currently authenticated user.
      */
-    public function user(): ?Authenticatable
+    public function user()
     {
         return SentinelFacade::getUser();
     }
@@ -39,7 +39,7 @@ class Sentinel implements LaravelGuard
     /**
      * Get the ID for the currently authenticated user.
      */
-    public function id(): ?int
+    public function id()
     {
         if ($user = SentinelFacade::check()) {
             return $user->id;
@@ -51,7 +51,7 @@ class Sentinel implements LaravelGuard
     /**
      * Validate a user's credentials.
      */
-    public function validate(array $credentials = []): bool
+    public function validate(array $credentials = [])
     {
         return SentinelFacade::validForCreation($credentials);
     }
@@ -61,7 +61,7 @@ class Sentinel implements LaravelGuard
    *
    * @return bool
    */
-  public function hasUser(): bool
+  public function hasUser()
   {
     return SentinelFacade::hasUser();
   }
@@ -69,7 +69,7 @@ class Sentinel implements LaravelGuard
     /**
      * Set the current user.
      */
-    public function setUser(Authenticatable $user): bool
+    public function setUser(Authenticatable $user)
     {
         return SentinelFacade::login($user);
     }
@@ -77,22 +77,22 @@ class Sentinel implements LaravelGuard
     /**
      * Alias to set the current user.
      */
-    public function login(Authenticatable $user): bool
+    public function login(Authenticatable $user)
     {
         return $this->setUser($user);
     }
 
-    public function attempt(array $credentials, bool $remember = false): bool
+    public function attempt(array $credentials, bool $remember = false)
     {
         return SentinelFacade::authenticate($credentials, $remember);
     }
 
-    public function logout(): bool
+    public function logout()
     {
         return SentinelFacade::logout();
     }
 
-    public function loginUsingId(int $userId): bool
+    public function loginUsingId(int $userId)
     {
         $user = app(\Modules\User\Repositories\UserRepository::class)->find($userId);
 
