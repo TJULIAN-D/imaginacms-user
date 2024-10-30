@@ -19,9 +19,11 @@ use Modules\Media\Support\Traits\MediaRelation;
 
 use Modules\Core\Support\Traits\AuditTrait;
 
+use Modules\Rateable\Traits\Rateable;
+
 class User extends EloquentUser implements UserInterface, AuthenticatableContract
 {
-  use PresentableTrait, Authenticatable, HasApiTokens, AuditTrait, RevisionableTrait, Tokenable, MediaRelation;
+  use PresentableTrait, Authenticatable, HasApiTokens, AuditTrait, RevisionableTrait, Tokenable, MediaRelation, Rateable;
 
   public $repository = 'Modules\User\Repositories\UserRepository';
   public $entity = 'Modules\User\Entities\Sentinel\User';
@@ -180,4 +182,20 @@ class User extends EloquentUser implements UserInterface, AuthenticatableContrac
 
         return $permissions->hasAccess($permission);
     }
+
+    public function information()
+    {
+        return $this->hasMany(
+            \Modules\Iprofile\Entities\Information::class,'user_id');
+    }
+
+    public function skills()
+    {
+        return $this->hasMany(
+            \Modules\Iprofile\Entities\Skill::class,'user_id');
+
+    }
+
+
+
 }
