@@ -119,7 +119,8 @@ return [
   //Media Fillables
   'mediaFillable' => [
     'user' => [
-      'profile' => 'single'
+      'profile' => 'single',
+      'documents' => 'multiple'
     ]
   ]
 ];
