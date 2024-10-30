@@ -8,6 +8,8 @@ use Cartalyst\Sentinel\Users\EloquentUser;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Laracasts\Presenter\PresentableTrait;
+use Modules\Core\Icrud\Traits\HasCacheClearable;
+use Modules\Iqreable\Traits\IsQreable;
 use Modules\Isite\Traits\Tokenable;
 use Modules\User\Entities\UserInterface;
 use Modules\User\Entities\UserToken;
@@ -23,7 +25,7 @@ use Modules\Rateable\Traits\Rateable;
 
 class User extends EloquentUser implements UserInterface, AuthenticatableContract
 {
-  use PresentableTrait, Authenticatable, HasApiTokens, AuditTrait, RevisionableTrait, Tokenable, MediaRelation, Rateable;
+  use PresentableTrait, Authenticatable, HasApiTokens, AuditTrait, RevisionableTrait, Tokenable, MediaRelation, Rateable, IsQreable, HasCacheClearable;
 
   public $repository = 'Modules\User\Repositories\UserRepository';
   public $entity = 'Modules\User\Entities\Sentinel\User';
@@ -196,6 +198,16 @@ class User extends EloquentUser implements UserInterface, AuthenticatableContrac
 
     }
 
-
+    public function getCacheClearableData()
+    {
+      $baseUrls = [config("app.url"), $this->url];
+      $urls = ['urls' => $baseUrls];
+      return $urls;
+    }
+    public function getUrlAttribute()
+    {
+      $url = url('/account/profile/'.$this->id);
+      return $url;
+    }
 
 }
