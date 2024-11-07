@@ -200,10 +200,16 @@ class User extends EloquentUser implements UserInterface, AuthenticatableContrac
 
     public function getCacheClearableData()
     {
-      $baseUrls = [config("app.url"), $this->url];
+      $baseUrls = [config("app.url")];
+
+      if (!$this->wasRecentlyCreated && !$this->is_internal) {
+        $baseUrls[] = $this->url;
+      }
       $urls = ['urls' => $baseUrls];
+
       return $urls;
     }
+
     public function getUrlAttribute()
     {
       $url = url('/account/profile/'.$this->id);
