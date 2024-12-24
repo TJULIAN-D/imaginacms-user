@@ -16,6 +16,7 @@ use Modules\User\Entities\UserInterface;
 use Modules\User\Entities\UserToken;
 use Modules\User\Presenters\UserPresenter;
 use Laravel\Passport\HasApiTokens;
+use Modules\User\Services\UserResetter;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 use Modules\Isite\Traits\RevisionableTrait;
 use Modules\Media\Support\Traits\MediaRelation;
@@ -228,14 +229,15 @@ class User extends EloquentUser implements UserInterface, AuthenticatableContrac
     $response = [];
     $notifyUserOnCreation = setting("iprofile::notifyUserOnCreation", null, 0);
     //Validation Event Created and notifyUserOnCreate
-    if($event == "created" && $notifyUserOnCreation){
+    if($event == "created" && $notifyUserOnCreation)
+    {
       $userId = Auth::id() ?? null;
-      $bearer = $this->createToken('Laravel Password Grant Client');
-      $authBearer = $bearer->accessToken;
+      $auth = app("Modules\\User\\Contracts\\Authentication");
+      $code = $auth->createReminderCode($this);
       $response[$event] = [
         'title' => trans('iprofile::iprofile.notifications.titleChangePassword'),
         'message' => trans('iprofile::iprofile.notifications.messageChangePassword', [
-          'linkPassword' => url('/ipanel?authbearer=' . $authBearer)
+          'linkPassword' => url("/".config('asgard.iprofile.config.resetCompletePasswordPath')."/{$this->id}/{$code}")
         ]),
         "email" => [$this->email],
         "userId" => $userId,
