@@ -11,6 +11,7 @@ use Laracasts\Presenter\PresentableTrait;
 use Modules\Core\Icrud\Traits\HasCacheClearable;
 use Modules\Iqreable\Traits\IsQreable;
 use Modules\Isite\Traits\Tokenable;
+use Modules\Notification\Traits\IsNotificable;
 use Modules\User\Entities\UserInterface;
 use Modules\User\Entities\UserToken;
 use Modules\User\Presenters\UserPresenter;
@@ -18,6 +19,7 @@ use Laravel\Passport\HasApiTokens;
 use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
 use Modules\Isite\Traits\RevisionableTrait;
 use Modules\Media\Support\Traits\MediaRelation;
+use Illuminate\Support\Facades\Auth;
 
 use Modules\Core\Support\Traits\AuditTrait;
 
@@ -25,7 +27,8 @@ use Modules\Rateable\Traits\Rateable;
 
 class User extends EloquentUser implements UserInterface, AuthenticatableContract
 {
-  use PresentableTrait, Authenticatable, HasApiTokens, AuditTrait, RevisionableTrait, Tokenable, MediaRelation, Rateable, IsQreable, HasCacheClearable;
+  use PresentableTrait, Authenticatable, HasApiTokens, AuditTrait, RevisionableTrait, Tokenable, MediaRelation,
+    Rateable, IsQreable, HasCacheClearable, IsNotificable;
 
   public $repository = 'Modules\User\Repositories\UserRepository';
   public $entity = 'Modules\User\Entities\Sentinel\User';
@@ -110,7 +113,7 @@ class User extends EloquentUser implements UserInterface, AuthenticatableContrac
     {
       return $this->hasMany(UserToken::class);
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -173,7 +176,7 @@ class User extends EloquentUser implements UserInterface, AuthenticatableContrac
         //i: No relation found, return the call to parent (Eloquent) to handle it.
         return parent::__call($method, $parameters);
     }
-    
+
 
     /**
      * {@inheritdoc}
@@ -216,4 +219,31 @@ class User extends EloquentUser implements UserInterface, AuthenticatableContrac
       return $url;
     }
 
+  /**
+   * Make Notificable Params | to Trait
+   * @param $event (created|updated|deleted)
+   */
+  public function isNotificableParams($event)
+  {
+    $response = [];
+    $notifyUserOnCreation = setting("iprofile::notifyUserOnCreation", null, 0);
+    //Validation Event Created and notifyUserOnCreate
+    if($event == "created" && $notifyUserOnCreation){
+      $userId = Auth::id() ?? null;
+      $bearer = $this->createToken('Laravel Password Grant Client');
+      $authBearer = $bearer->accessToken;
+      $response[$event] = [
+        'title' => trans('iprofile::iprofile.notifications.titleChangePassword'),
+        'message' => trans('iprofile::iprofile.notifications.messageChangePassword', [
+          'linkPassword' => url('/ipanel?authbearer=' . $authBearer)
+        ]),
+        "email" => [$this->email],
+        "userId" => $userId,
+        "source" => "createUser",
+      ];
+    }
+
+    return $response;
+
+  }
 }
