@@ -104,11 +104,18 @@
                                         {{ trans('user::auth.reset password') }}
                                     </td>
                                 </tr>
+                                @php
+                                  $resetBaseUrl = URL::to(config('asgard.iprofile.config.resetCompletePasswordPath'));
+                                  if(config('asgard.iprofile.config.fullResetCompletePasswordPath'))
+                                    $resetBaseUrl = config('asgard.iprofile.config.fullResetCompletePasswordPath');
+                                  //Add keys
+                                  $resetBaseUrl.="/{$data['user']->id}/{$data['code']}"
+                                @endphp
                                 <tr style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0; padding: 0;">
                                     <td class="content-block"
                                         style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;"
                                         valign="top">
-                                        {{ trans('user::auth.to reset password complete this form') }} {{ URL::to("/iadmin/#/auth/reset/{$data['user']->id}/{$data['code']}") }}
+                                        {{ trans('user::auth.to reset password complete this form') }} {{ $resetBaseUrl }}
                                         .
                                     </td>
                                 </tr>
@@ -116,7 +123,7 @@
                                     <td class="content-block"
                                         style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;"
                                         valign="top">
-                                        <a href='{{ URL::to("/".config('asgard.iprofile.config.resetCompletePasswordPath')."/{$data['user']->id}/{$data['code']}") }}'
+                                        <a href='{{ $resetBaseUrl }}'
                                            class="btn-primary"
                                            style="font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; color: #FFF; text-decoration: none; line-height: 2; font-weight: bold; text-align: center; cursor: pointer; display: inline-block; border-radius: 5px; text-transform: capitalize; background: #348eda; margin: 0; padding: 0; border-color: #348eda; border-style: solid; border-width: 10px 20px;">
                                             {{ trans('user::auth.reset password') }}
