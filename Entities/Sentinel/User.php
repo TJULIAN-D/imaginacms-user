@@ -265,7 +265,7 @@ class User extends EloquentUser implements UserInterface, AuthenticatableContrac
 
   public function getExtraFieldsAttribute()
   {
-    $fields = $this->fields()->get();
+    $fields = $this->fields;
     $extraFields = [];
     if ($fields->isNotEmpty()) {
       $names = $fields->pluck('name')->all();
