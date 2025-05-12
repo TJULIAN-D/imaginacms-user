@@ -262,4 +262,22 @@ class User extends EloquentUser implements UserInterface, AuthenticatableContrac
     return $response;
 
   }
+
+  public function getExtraFieldsAttribute()
+  {
+    $fields = $this->fields;
+    $extraFields = [];
+    if ($fields->isNotEmpty()) {
+      $names = $fields->pluck('name')->all();
+      $fieldForms = iforms_findFieldByName($names); // name => fieldObject
+      foreach ($fields as $field) {
+        $form = $fieldForms[$field->name] ?? null;
+        $extraFields[] = [
+          "label" => $form->label ?? '',
+          "value" => $field->value ?? ''
+        ];
+      }
+    }
+    return $extraFields;
+  }
 }
