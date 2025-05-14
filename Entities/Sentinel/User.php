@@ -272,10 +272,12 @@ class User extends EloquentUser implements UserInterface, AuthenticatableContrac
       $fieldForms = iforms_findFieldByName($names); // name => fieldObject
       foreach ($fields as $field) {
         $form = $fieldForms[$field->name] ?? null;
-        $extraFields[] = [
-          "label" => $form->label ?? '',
-          "value" => $field->value ?? ''
-        ];
+        if(!empty($field->value) && !is_object($field->value)) {
+          $extraFields[] = [
+            "label" => $form->label ?? '',
+            "value" => $field->value ?? ''
+          ];
+        }
       }
     }
     return $extraFields;
